@@ -1,0 +1,39 @@
+#tu génre le clé sur la machine aprés tu la copie dans authorized_key et tu donne toutes les permission , aprés je dois entrer sur la machine vagrant ssh monmaster , et je fais les étapes suivantes : 
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0+uBjfcEhnbSPdMhCvtWkrox7hTUVtZDgQJN1noGWfQrbjbHH43AQt6dXVCwhRsJRYvBP8fx6sUNRH9EpLo3zjLHQXrurS4ZUSwk8Nb78QVyAMDLQsgRBzNJln5ImTZZY2xG3GKxXC0W9gs1vammHlcyzISiDvjGpwT30ziQPjSBI1P4+aAvRfWjFh+b/rbrnNs/Dw71JCJkM8fn1UKlwWUH3qO2v/lLucUc9C/E7WBD2EYTyy4aMFyUZ96tjeZiXpG/vnHwGjzqMc7NC9Z3xUHIQ8r5wi1TzuhOcYTeKKUSNW7yIDrJ8kpHiNW9bvGgc2mT0nVl8+IHImKjWkd0bSLuJqN59htNPO30aH8vr9Wp6pXpn9gnIsNl2Ke9sepyshMc1CQD9iT9I5YXwa9vGtVEAc7b8Fob9d9OoFYGb7m+6Gf/sC77S/2akVaP9TwpD57PpfGQlHAQxFsOyZZP89uLchchKF7hSA2JflKArBnQ0OYvUVwlRm4gBQOHaWsT1aOXK92fyG+cOtJTtfRfJZwAeriWVOAnXqTaRHnxVlowKcTmQr0hyTPjhW4mXoQzRpzBcbF64fiTrra+epwcuF088l0u5oSTJgfgzgDZCt7ZWDz9HaQowTfdsGnaeeDB+y9c/021Oz5EEpe0FF4F1sjLzLmWH19Lo03TrZEe5iw== your_email@example.com
+
+mkdir -p ~/.ssh
+nano ~/.ssh/authorized_keys
+ajouter la clé 
+ajouter les permissions : 
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+ #Supprimer l'ancien clé : 
+ ssh-keygen -f "/home/achref/.ssh/known_hosts" -R "10.10.10.100"
+# SSH vers le master node
+ssh vagrant@10.10.10.100
+# Sur le master node
+sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/k3s.yaml
+sudo chown vagrant:vagrant /home/vagrant/k3s.yaml
+exit
+
+# Sur la machine locale
+mkdir -p ~/.kube
+scp vagrant@10.10.10.100:/home/vagrant/k3s.yaml ~/.kube/config
+
+# Modifier le fichier kubeconfig
+nano ~/.kube/config
+
+# Configurer l'environnement
+export KUBECONFIG=~/.kube/config
+echo 'export KUBECONFIG=~/.kube/config' >> ~/.bashrc
+source ~/.bashrc
+
+# Vérifier la connexion
+kubectl get nodes
+#installer flannel : 
+https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+
+
+

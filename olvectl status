@@ -1,0 +1,25 @@
+[0;1;32m●[0m systemd-resolved.service - Network Name Resolution
+     Loaded: loaded (/lib/systemd/system/systemd-resolved.service; enabled; vendor preset: enabled)
+     Active: [0;1;32mactive (running)[0m since Mon 2024-08-12 20:33:52 CEST; 51min ago
+       Docs: man:systemd-resolved.service(8)
+             man:org.freedesktop.resolve1(5)
+             https://www.freedesktop.org/wiki/Software/systemd/writing-network-configuration-managers
+             https://www.freedesktop.org/wiki/Software/systemd/writing-resolver-clients
+   Main PID: 560 (systemd-resolve)
+     Status: "Processing requests..."
+      Tasks: 1 (limit: 14141)
+     Memory: 5.3M
+        CPU: 2.528s
+     CGroup: /system.slice/systemd-resolved.service
+             └─560 /lib/systemd/systemd-resolved
+
+août 12 20:33:52 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: . IN DS 20326 8 2 e06d44b80b8f1d39a95c0b0d7c65d08458e880409bbc683457104237c7f8ec8d
+août 12 20:33:52 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: Negative trust anchors: home.arpa 10.in-addr.arpa 16.172.in-addr.arpa 17.172.in-addr.arpa 18.172.in-addr.arpa 19.172.in-addr.arpa 20.172.in-addr.arpa 21.172.in-addr.arpa 22.172.in-addr.arpa 23.172.in-addr.arpa 24.172.in-addr.arpa 25.172.in-addr.arpa 26.172.in-addr.arpa 27.172.in-addr.arpa 28.172.in-addr.arpa 29.172.in-addr.arpa 30.172.in-addr.arpa 31.172.in-addr.arpa 168.192.in-addr.arpa d.f.ip6.arpa corp home internal intranet lan local private test
+août 12 20:33:52 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: Using system hostname 'achref-Lenovo-ideapad-330-15IKB'.
+août 12 20:33:52 achref-Lenovo-ideapad-330-15IKB systemd[1]: Started Network Name Resolution.
+août 12 20:33:59 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: wlp3s0: Bus client set default route setting: yes
+août 12 20:33:59 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: wlp3s0: Bus client set DNS server list to: 10.188.0.1
+août 12 20:54:03 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: enxf2c3714cf80f: Bus client set default route setting: yes
+août 12 20:54:03 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: enxf2c3714cf80f: Bus client set DNS server list to: 172.20.10.1
+août 12 20:58:37 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: enxf2c3714cf80f: Bus client set default route setting: yes
+août 12 20:58:37 achref-Lenovo-ideapad-330-15IKB systemd-resolved[560]: enxf2c3714cf80f: Bus client set DNS server list to: 172.20.10.1

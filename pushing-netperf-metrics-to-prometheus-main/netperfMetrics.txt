@@ -1,0 +1,6 @@
+netperf_p90_latency_microseconds.origin.server-0.destination.agent-1=299
+netperf_p90_latency_microseconds.origin.server-0.destination.agent-0=376
+netperf_p90_latency_microseconds.origin.agent-1.destination.server-0=375
+netperf_p90_latency_microseconds.origin.agent-1.destination.agent-0=353
+netperf_p90_latency_microseconds.origin.agent-0.destination.server-0=383
+netperf_p90_latency_microseconds.origin.agent-0.destination.agent-1=372

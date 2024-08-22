@@ -1,0 +1,152 @@
+apiVersion: appgroup.diktyo.x-k8s.io/v1alpha1
+kind: AppGroup
+metadata:
+  name: sock-shop
+  namespace : sock-shop
+spec:
+  numMembers: 13
+  topologySortingAlgorithm: AlternateKahn
+  workloads:
+    - workload:
+        kind: Deployment
+        name: front-end-v1
+        selector: name=front-end
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: catalogue
+            selector: name=catalogue
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+        - workload:
+            kind: Deployment
+            name: orders
+            selector: name=orders
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+        - workload:
+            kind: Deployment
+            name: payment
+            selector: name=payment
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: orders
+        selector: name=orders
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: orders-db
+            selector: name=orders-db
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: payment
+        selector: name=payment
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: user-db
+            selector: name=user-db
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: catalogue
+        selector: name=catalogue
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: catalogue-db
+            selector: name=catalogue-db
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: user
+        selector: name=user
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: user-db
+            selector: name=user-db
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: shipping
+        selector: name=shipping
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: queue-master
+            selector: name=queue-master
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: queue-master
+        selector: name=queue-master
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies:
+        - workload:
+            kind: Deployment
+            name: rabbitmq
+            selector: name=rabbitmq
+            apiVersion: apps/v1
+            namespace: sock-shop
+          minBandwidth: "100Mi"
+          maxNetworkCost: 80
+    - workload:
+        kind: Deployment
+        name: carts-db
+        selector: name=carts-db
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies: []
+    - workload:
+        kind: Deployment
+        name: catalogue-db
+        selector: name=catalogue-db
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies: []
+    - workload:
+        kind: Deployment
+        name: user-db
+        selector: name=user-db
+        apiVersion: apps/v1
+        namespace: sock-shop
+      dependencies: []
+

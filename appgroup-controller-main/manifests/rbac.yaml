@@ -1,0 +1,24 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: appgroup-controller
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["appgroup.diktyo.x-k8s.io"]
+  resources: ["appgroups"]
+  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: appgroup-controller
+subjects:
+- kind: ServiceAccount
+  name:  appgroup-controller
+  namespace: network-aware-controllers
+roleRef:
+  kind: ClusterRole
+  name: appgroup-controller
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,20 @@
+08/19/2024 01:58:02 AM Script started with arguments: Namespace(file='results.csv')
+08/19/2024 01:58:02 AM Reading CSV file... Dataframe: 
+08/19/2024 01:58:02 AM     origin destination  netperf_p50_latency_microseconds  netperf_p90_latency_microseconds netperf_p99_latency_microseconds
+0  agent-1    server-0                               614                               NaN                                 
+1  agent-0    server-0                               574                               NaN                              NaN
+08/19/2024 01:58:02 AM Retrieved '2' metrics
+08/19/2024 01:58:02 AM Metric netperf_p50_latency_microseconds{origin="agent-1", destination="server-0"} has the value 614
+08/19/2024 01:58:02 AM Metric netperf_p50_latency_microseconds{origin="agent-0", destination="server-0"} has the value 574
+08/19/2024 01:58:02 AM Metrics to be pushed:
+# HELP netperf_p50_latency_microseconds netperf measurement pushed to the Prometheus Pushgateway.
+# TYPE netperf_p50_latency_microseconds gauge
+# HELP netperf_p90_latency_microseconds netperf measurement pushed to the Prometheus Pushgateway.
+# TYPE netperf_p90_latency_microseconds gauge
+# HELP netperf_p99_latency_microseconds netperf measurement pushed to the Prometheus Pushgateway.
+# TYPE netperf_p99_latency_microseconds gauge
+netperf_p50_latency_microseconds{origin="agent-1", destination="server-0"} 614
+netperf_p50_latency_microseconds{origin="agent-0", destination="server-0"} 574
+
+08/19/2024 01:58:02 AM Starting new HTTP connection (1): prometheus-pushgateway:9091
+08/19/2024 01:58:02 AM Exception occurred while sending request: HTTPConnectionPool(host='prometheus-pushgateway', port=9091): Max retries exceeded with url: /metrics/job/netperf/instance/networkAware (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f5ec4f4daf0>: Failed to resolve 'prometheus-pushgateway' ([Errno -3] Temporary failure in name resolution)"))

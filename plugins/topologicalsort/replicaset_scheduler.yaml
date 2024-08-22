@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: "1"
+    deployment.kubernetes.io/max-replicas: "2"
+    deployment.kubernetes.io/revision: "1"
+    meta.helm.sh/release-name: scheduler-plugins
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2024-08-21T09:39:34Z"
+  generation: 1
+  labels:
+    component: scheduler
+    pod-template-hash: 5c679768f4
+  name: scheduler-plugins-scheduler-5c679768f4
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Deployment
+    name: scheduler-plugins-scheduler
+    uid: ac49dec6-e447-4364-b5c7-fb56c17ec567
+  resourceVersion: "245538"
+  uid: 3f56e321-bbb7-479b-94d0-c053aaa68077
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: scheduler
+      pod-template-hash: 5c679768f4
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        component: scheduler
+        pod-template-hash: 5c679768f4
+    spec:
+      containers:
+      - args:
+        - --config=/etc/kubernetes/scheduler-config.yaml
+        image: registry.k8s.io/scheduler-plugins/kube-scheduler:v0.29.7
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 10259
+            scheme: HTTPS
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: scheduler-plugins-scheduler
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 10259
+            scheme: HTTPS
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 100m
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/kubernetes
+          name: scheduler-config
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: scheduler-plugins-scheduler
+      serviceAccountName: scheduler-plugins-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: scheduler-config
+        name: scheduler-config
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1

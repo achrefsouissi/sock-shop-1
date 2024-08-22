@@ -1,0 +1,16 @@
+#installation de Flannel
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml 
+#Vérification de l'Installation de Flannel
+kubectl get pods -n kube-flannel
+#3. Modification de la Configuration de Flannel
+kubectl get configmap -n kube-flannel
+#kubectl get configmap -n kube-flannel
+kubectl get configmap kube-flannel-cfg -n kube-flannel -o yaml > kube-flannel-cfg.yaml
+#Modifier le fichier YAML localement :
+nano kube-flannel-cfg.yaml
+#Réappliquer les modifications :
+kubectl apply -f kube-flannel-cfg.yaml
+#4. Redémarrage des Pods Flannel
+kubectl delete pods -l app=flannel -n kube-flannel
+#5. Vérification Post-Modification
+kubectl get pods -n kube-flannel

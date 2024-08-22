@@ -1,0 +1,3 @@
+origin,destination,netperf_p50_latency_microseconds,netperf_p90_latency_microseconds,netperf_p99_latency_microseconds
+agent-1,server-0,614,, 
+agent-0,server-0,574,,

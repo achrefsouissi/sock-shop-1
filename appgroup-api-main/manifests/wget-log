@@ -1,0 +1,11 @@
+--2024-08-15 14:53:34--  https://raw.githubusercontent.com/docker/machine/v0.16.0/contrib/completion/bash/docker-machine.bash
+Résolution de raw.githubusercontent.com (raw.githubusercontent.com)… 185.199.111.133, 185.199.109.133, 185.199.110.133, ...
+Connexion à raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443… connecté.
+requête HTTP transmise, en attente de la réponse… 200 OK
+Taille : 12211 (12K) [text/plain]
+Enregistre : ‘/etc/bash_completion.d/docker-machine.bash.749’
+
+     0K .......... .                                          100% 3,79M=0,003s
+
+2024-08-15 14:53:34 (3,79 MB/s) - ‘/etc/bash_completion.d/docker-machine.bash.749’ enregistré [12211/12211]
+

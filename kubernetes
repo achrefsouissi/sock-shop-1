@@ -1,0 +1,666 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: front-end
+    name: front-end
+  spec:
+    ports:
+    - name: "80"
+      port: 80
+      targetPort: 8079
+    selector:
+      io.kompose.service: front-end
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: carts
+    name: carts
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: carts
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: carts
+      spec:
+        containers:
+        - env:
+          - name: JAVA_OPTS
+            value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
+              -Dspring.zipkin.enabled=false
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/carts:0.4.8
+          imagePullPolicy: ""
+          name: carts
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: carts-db
+    name: carts-db
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: carts-db
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: carts-db
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: mongo:3.4
+          imagePullPolicy: ""
+          name: carts-db
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: catalogue
+    name: catalogue
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: catalogue
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: catalogue
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/catalogue:0.3.5
+          imagePullPolicy: ""
+          name: catalogue
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: catalogue-db
+    name: catalogue-db
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: catalogue-db
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: catalogue-db
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "true"
+          - name: MYSQL_DATABASE
+            value: socksdb
+          - name: MYSQL_ROOT_PASSWORD
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/catalogue-db:0.3.0
+          imagePullPolicy: ""
+          name: catalogue-db
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: front-end
+    name: front-end
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: front-end
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: front-end
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/front-end:0.3.12
+          imagePullPolicy: ""
+          name: front-end
+          ports:
+          - containerPort: 8079
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: orders
+    name: orders
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: orders
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: orders
+      spec:
+        containers:
+        - env:
+          - name: JAVA_OPTS
+            value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
+              -Dspring.zipkin.enabled=false
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/orders:0.4.7
+          imagePullPolicy: ""
+          name: orders
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: orders-db
+    name: orders-db
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: orders-db
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: orders-db
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: mongo:3.4
+          imagePullPolicy: ""
+          name: orders-db
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: payment
+    name: payment
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: payment
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: payment
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/payment:0.4.3
+          imagePullPolicy: ""
+          name: payment
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: rabbitmq
+    name: rabbitmq
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: rabbitmq
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: rabbitmq
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: rabbitmq:3.6.8
+          imagePullPolicy: ""
+          name: rabbitmq
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: shipping
+    name: shipping
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: shipping
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: shipping
+      spec:
+        containers:
+        - env:
+          - name: JAVA_OPTS
+            value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
+              -Dspring.zipkin.enabled=false
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/shipping:0.4.8
+          imagePullPolicy: ""
+          name: shipping
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: user
+    name: user
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: user
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: user
+      spec:
+        containers:
+        - env:
+          - name: MONGO_HOST
+            value: user-db:27017
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/user:0.4.4
+          imagePullPolicy: ""
+          name: user
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+      kompose.version: 1.21.0 (992df58d8)
+    creationTimestamp: null
+    labels:
+      io.kompose.service: user-db
+    name: user-db
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        io.kompose.service: user-db
+    strategy: {}
+    template:
+      metadata:
+        annotations:
+          kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert -o kubernetes
+          kompose.version: 1.21.0 (992df58d8)
+        creationTimestamp: null
+        labels:
+          io.kompose.network/new_network_name: "true"
+          io.kompose.service: user-db
+      spec:
+        containers:
+        - env:
+          - name: reschedule
+            value: on-node-failure
+          image: weaveworksdemos/user-db:0.4.0
+          imagePullPolicy: ""
+          name: user-db
+          resources: {}
+        restartPolicy: Always
+        serviceAccountName: ""
+        volumes: null
+  status: {}
+- apiVersion: extensions/v1beta1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: null
+    name: new_network_name
+  spec:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            io.kompose.network/new_network_name: "true"
+    podSelector:
+      matchLabels:
+        io.kompose.network/new_network_name: "true"
+kind: List
+metadata: {}
+
